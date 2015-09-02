@@ -22,4 +22,7 @@ if ( is_admin() ) {
     $bambeeWebsite = new CustomAdmin();
 } else {
     $bambeeWebsite = new CustomWebsite();
+
+    require_once( 'lib/TopBarWalker.php' );
+    $topBarWalker = new TopBarWalker();
 }
