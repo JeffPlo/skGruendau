@@ -14,15 +14,6 @@
 
 jQuery ($) ->
   ###*
-    * Log "Everything loaded".
-    *
-    * @since 1.0.0
-    * @return {void}
-  ###
-  onReady = ->
-    console.log 'Everything loaded'
-
-  ###*
     * Initialize modules/plugins/etc.
     *
     * @since 1.0.0
@@ -40,5 +31,17 @@ jQuery ($) ->
   ###
   initEvents = ->
     $(window).load onReady
+
+  ###*
+    * Log "Everything loaded".
+    *
+    * @since 1.0.0
+    * @return {void}
+  ###
+  onReady = ->
+    $('.table-tabs').tabs()
+
+  getTableContent = ->
+
 
   init()
