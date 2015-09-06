@@ -23,7 +23,6 @@ $short_lang = $short_lang[0];
     <?php wp_enqueue_script( 'comment-reply' ); ?>
 
     <link rel="shortcut icon" href="<?php echo ThemeUrl; ?>/favicon.ico" type="image/x-icon"/>
-    <link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo( 'stylesheet_url' ); ?>"/>
 
     <?php wp_head(); ?>
 

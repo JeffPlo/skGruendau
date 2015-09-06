@@ -7,7 +7,7 @@
                 <a href="<?php echo $singlePost->guid; ?>">
                 <?php
             }
-            echo $singlePost->post_content;
+            echo apply_filters('the_content', $singlePost->post_content);
             if( $singlePost->read_more === 1 ) {
                 ?>
                 </a>

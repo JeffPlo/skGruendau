@@ -1,0 +1,21 @@
+article {
+  .centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .alignright {
+    padding: 4px;
+    margin: 0 0 2px 7px;
+    display: inline;
+    float: right;
+  }
+
+  .alignleft {
+    padding: 4px;
+    margin: 0 7px 2px 0;
+    display: inline;
+    float: left;
+  }
+}
