@@ -31,6 +31,8 @@ jQuery ($) ->
   ###
   initEvents = ->
     $(window).load onReady
+    $(document).on 'click', '.table-tabs .not-loaded', getTableContent
+
 
   ###*
     * Log "Everything loaded".
@@ -42,6 +44,7 @@ jQuery ($) ->
     $('.table-tabs').tabs()
 
   getTableContent = ->
+    console.log($(this).data('team-id'), $(this).data('league-id'))
 
 
   init()

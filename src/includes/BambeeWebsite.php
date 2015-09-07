@@ -225,7 +225,7 @@ class BambeeWebsite {
 
         # Grunt livereload (development only)
         if ( WP_DEBUG ) {
-            wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js' );
+            #wp_enqueue_script( 'livereload', '//localhost:35729/livereload.js' );
         }
 
         # Additional scripts
