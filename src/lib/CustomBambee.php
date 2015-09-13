@@ -17,6 +17,51 @@ use Inc\Bambee;
  * @licence MIT
  */
 class CustomBambee extends Bambee {
+    public static $season = 2015;
+    public static $club = array(
+        array(
+            'team' => '1. Mannschaft',
+            'league' => 'Landesklasse Ost',
+            'leagueId' => 483,
+            'teamId' => 3529
+        ),
+        array(
+            'team' => '2. Mannschaft',
+            'league' => 'Bezirksklasse',
+            'leagueId' => 471,
+            'teamId' => 3393
+        ),
+        array(
+            'team' => '3. Mannschaft',
+            'league' => 'Kreisklasse A',
+            'leagueId' => 467,
+            'teamId' => 3439
+        ),
+        array(
+            'team' => '4. Mannschaft',
+            'league' => 'Kreisklasse B II',
+            'leagueId' => 529,
+            'teamId' => 3903
+        ),
+        array(
+            'team' => '1. und 2. Jugendteam',
+            'league' => 'MVSJ-league, Staffel A',
+            'leagueId' => 501,
+            'teamId' => 4009
+        ),
+        array(
+            'team' => '3. Jugendteam',
+            'league' => 'MVSJ-league, Staffel B',
+            'leagueId' => 503,
+            'teamId' => 4033
+        ),
+        array(
+            'team' => '4. Jugendteam',
+            'league' => 'MVSJ-league, Staffel C',
+            'leagueId' => 505,
+            'teamId' => 4047
+        ),
+    );
 
     /**
      * @since 1.0.0
@@ -26,6 +71,8 @@ class CustomBambee extends Bambee {
         parent::__construct();
 
         add_action( 'init', array($this, 'disableEmojis') );
+        add_action( 'wp_ajax_nopriv_get_data', array($this, 'getData') );
+        add_action( 'wp_ajax_get_data', array($this, 'getData') );
     }
 
     public function disableEmojis() {
@@ -45,5 +92,72 @@ class CustomBambee extends Bambee {
         } else {
             return array();
         }
+    }
+
+    public function getData() {
+        $nonce = filter_input(INPUT_POST, 'nonce');
+        if ( !wp_verify_nonce( $nonce, "ajax-nonce")) {
+            echo json_encode(array('data' => "Nonce is bad!", 'nonce' => $nonce));
+            die();
+        }
+
+        $result = '';
+        $callFunction = filter_input(INPUT_POST, 'function');
+        switch($callFunction) {
+            case 'getTableContent':
+                $leagueId = filter_input(INPUT_POST, 'leagueId');
+                $type = filter_input(INPUT_POST, 'type');
+                $result = $this->getTableContent($type, $leagueId);
+        }
+
+
+        echo $result;
+        wp_die();
+    }
+
+    public static function getTableContent($type, $leagueId) {
+        $content = '';
+        $in_charset = 'ISO-8859-1';
+        $out_charset = 'utf-8';
+
+        if('results' === $type) {
+            $pattern = '=<p>.*</p>=siU';
+            $replace = '';
+            $type = 'tabelle';
+        }
+        else {
+            $pattern = 'href="/';
+            $replace = 'target="_blank" href="http://hessen.portal64.de/';
+            $type = 'termin';
+        }
+
+
+        $opts = array(
+            'http' => array(
+                'method' => "GET",
+                'header' => implode("\r\n", array(
+                    'Content-type: text/plain; charset=' . $in_charset
+                ))
+            )
+        );
+
+        $context = stream_context_create($opts);
+
+        $target = 'http://hessen.portal64.de/ergebnisse/show/'. CustomBambee::$season .'/'. $leagueId .'/'. $type . '/plain/';
+        // open file
+        if (is_resource(@fopen($target, 'r'))) {
+            // get table content
+            $file_content = file_get_contents($target, false, $context);
+            if ($in_charset != $out_charset) {
+                $content = iconv($in_charset, $out_charset, $file_content);
+            }
+
+            $content = str_ireplace($pattern, $replace, $content);
+        } else {
+            // could not load table
+            $content = '<p>die Tabelle konnte nicht eingelesen werden!</p>';
+        }
+
+        return $content;
     }
 }

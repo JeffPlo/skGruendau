@@ -18,57 +18,23 @@ use Inc\BambeeWebsite;
  */
 class CustomWebsite extends BambeeWebsite {
 
-    public $season = 2015;
-    public $club = array(
-        array(
-            'team' => '1. Mannschaft',
-            'league' => 'Landesklasse Ost',
-            'leagueId' => 483,
-            'teamId' => 3529
-        ),
-        array(
-            'team' => '2. Mannschaft',
-            'league' => 'Bezirksklasse',
-            'leagueId' => 471,
-            'teamId' => 3393
-        ),
-        array(
-            'team' => '3. Mannschaft',
-            'league' => 'Kreisklasse A',
-            'leagueId' => 467,
-            'teamId' => 3439
-        ),
-        array(
-            'team' => '4. Mannschaft',
-            'league' => 'Kreisklasse B II',
-            'leagueId' => 529,
-            'teamId' => 3903
-        ),
-        array(
-            'team' => '1. und 2. Jugendteam',
-            'league' => 'MVSJ-league, Staffel A',
-            'leagueId' => 501,
-            'teamId' => 4009
-        ),
-        array(
-            'team' => '3. Jugendteam',
-            'league' => 'MVSJ-league, Staffel B',
-            'leagueId' => 503,
-            'teamId' => 4033
-        ),
-        array(
-            'team' => '4. Jugendteam',
-            'league' => 'MVSJ-league, Staffel C',
-            'leagueId' => 505,
-            'teamId' => 4047
-        ),
-    );
-
     /**
      * @since 1.0.0
      * @return void
      */
     public function __construct() {
+
+        $this->localizedScripts = array(
+            array(
+                'handle' => 'admin-ajax',
+                'name' => 'adminAjax',
+                'data' => array(
+                    'ajaxurl' => admin_url('admin-ajax.php'),
+                    'nonce' => wp_create_nonce('ajax-nonce')
+                ),
+            )
+        );
+
         # Enqueue additional scripts
         $this->scripts = array(
             array(
@@ -78,31 +44,36 @@ class CustomWebsite extends BambeeWebsite {
             ),
             array(
                     'handle' => 'main-js',
-                    'src' => ThemeUrl . '/js/main.js',
+                    'src' => ThemeUrl . '/js/main.min.js',
                     'deps' => array( 'jquery' )
             ),
             array(
                 'handle' => 'jquery-ui-js',
                 'src' => ThemeUrl . '/js/partials/jquery.ui.js',
                 'deps' => array( 'jquery' )
+            ),
+            array(
+                'handle' => 'admin-ajax',
+                'src' => admin_url('admin-ajax.php')
             )
         );
 
         # Enqueue additional styles
         $this->styles = array(
             array(
-                    'handle' => 'vendor-css',
+                    'handle' => 'vendor',
                     'src' => ThemeUrl . '/css/vendor.min.css'
             ),
             array(
-                    'handle' => 'main-css',
+                    'handle' => 'main',
                     'src' => ThemeUrl . '/css/main.min.css'
             ),
             array(
-                'handle' => 'jquery-ui-css',
-                'src' => ThemeUrl . '/css/jquery.ui.css'
+                'handle' => 'jquery-ui',
+                'src' => ThemeUrl . '/css/vendor/jquery-ui.css'
             )
         );
+
         parent::__construct();
 
         add_shortcode( 'lastposts', array($this, 'getLastPosts') );
@@ -157,69 +128,22 @@ class CustomWebsite extends BambeeWebsite {
         ), $atts ) );
 
         $tabs = array();
+        $tabsContent = array();
         $separator = '<br />';
 
-        foreach ($this->club as $team) {
+        $tabContent = '';
+        foreach (CustomBambee::$club as $team) {
             $tabLabel = $team['team'] . $separator . '<p class="subtitle">' . $team['league'] . '</p>';
             $tabData = 'data-league-id="'. $team['leagueId'] .'" data-team-id="'. $team['teamId'] .'" data-type="'. $atts['type'] .'"';
-
-            $tabs[] = '<li><a href="#tabs-'. $team['teamId'] .'" class="team-tab not-loaded" '. $tabData .'>' . $tabLabel .'</a></li>';
-            $tabs_content[] = '<div id="tabs-'. $team['teamId'] .'"></div>';
-        }
-
-        return '<div class="table-tabs"><ul>' . join("\n", $tabs) .'</ul>'. join("\n", $tabs_content) . '</div>';
-    }
-    
-    public function getTableContent() {
-
-        $in_charset = 'ISO-8859-1';
-        $out_charset = 'utf-8';
-
-        return;
-        if('results' === $atts['type']) {
-            $suchmuster = '=<p>.*</p>=siU';
-            $ersetzung = '';
-            $type = 'tabelle';
-        }
-        else {
-            $suchmuster = 'href\="\/';
-            $ersetzung = 'href\="http:\/\/hessen.portal64.de\/';
-            $type = 'termin';
-        }
-
-
-        $opts = array(
-            'http' => array(
-                'method' => "GET",
-                'header' => implode("\r\n", array(
-                    'Content-type: text/plain; charset=' . $in_charset
-                ))
-            )
-        );
-
-        $context = stream_context_create($opts);
-        $tab_nummer = 0;
-
-        $tab_nummer++;
-        $target = 'http://hessen.portal64.de/ergebnisse/show/'. $year .'/'. $nummer['leagueId'] .'/'. $type . '/plain/';
-        // Test, ob der die Tabelle ausgelesen werden kann
-        $tabs[] = '<li><a href="#tabs-' . $tab_nummer . '">' . $nummer['team'] . $separator . '<p class="subtitle">' . $nummer['league'] . '</p></a></li>';
-        if (is_resource(@fopen($target, 'r'))) {
-
-            // Tabelle holen
-            $file_content = file_get_contents($target, false, $context);
-            if ($in_charset != $out_charset) {
-                $contents = iconv($in_charset, $out_charset, $file_content);
+            if(empty($tabContent)) {
+                $tabContent = CustomBambee::getTableContent($atts['type'], $team['leagueId']);
             }
 
-            $contents = str_ireplace($suchmuster, $ersetzung, $contents);
-        } else {
-            // Warnung oder ähnliches ausgeben
-            $contents = '<p>die Tabelle konnte nicht eingelesen werden!</p>';
+            $tabs[] = '<li><a href="#tabs-'. $team['teamId'] .'" class="team-tab not-loaded" '. $tabData .'>' . $tabLabel .'</a></li>';
+            $tabsContent[] = '<div id="tabs-'. $team['teamId'] .'">'. $tabContent .'</div>';
+            $tabContent = '<div class="loader"></div>';
         }
 
-
-        $js[] = '$(\'a[href*="einzelergebnisse/' . $nummer['teamId'] . '"]\').addClass(\'bluelight\');';
+        return '<div class="table-tabs"><ul>' . join("\n", $tabs) .'</ul>'. join("\n", $tabsContent) . '</div>';
     }
-
 }

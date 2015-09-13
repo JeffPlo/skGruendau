@@ -1262,7 +1262,7 @@ $blockquote-cite-link-color: $blockquote-cite-font-color;
 
 // These control the background color for the table and even rows
 // $table-bg: $white;
-// $table-even-row-bg: $snow;
+$table-even-row-bg: $blue-50;
 
 // These control the table cell border style
 // $table-border-style: solid;
@@ -1270,9 +1270,9 @@ $blockquote-cite-link-color: $blockquote-cite-font-color;
 // $table-border-color: $gainsboro;
 
 // These control the table head styles
-// $table-head-bg: $white-smoke;
+$table-head-bg: linear-gradient(to bottom, $blue-grey-900 0%, $blue-grey-800 50%, $grey-900 51%, $grey-600 100%);
 // $table-head-font-size: rem-calc(14);
-// $table-head-font-color: $jet;
+$table-head-font-color: $blue-100;
 // $table-head-font-weight: $font-weight-bold;
 // $table-head-padding: rem-calc(8 10 10);
 
@@ -1293,7 +1293,7 @@ $blockquote-cite-link-color: $blockquote-cite-font-color;
 // $table-row-padding: rem-calc(9 10);
 // $table-row-font-size: rem-calc(14);
 // $table-row-font-color: $jet;
-// $table-line-height: rem-calc(18);
+$table-line-height: 0.75rem;
 
 // These are for controlling the layout, display and margin of tables
 // $table-layout: auto;

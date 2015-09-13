@@ -44,7 +44,32 @@ jQuery ($) ->
     $('.table-tabs').tabs()
 
   getTableContent = ->
-    console.log($(this).data('team-id'), $(this).data('league-id'))
+    element = $(this)
+    if(element.hasClass('not-loaded'))
+      leagueId = element.data('league-id')
+      teamId = element.data('team-id')
+      type = element.data('type')
+
+      targetElement = $('#tabs-' + teamId)
+      data = {
+        action: 'get_data'
+        leagueId: leagueId
+        type: type
+        function: 'getTableContent'
+        nonce: adminAjax.nonce
+      }
+      $.ajax
+        url: adminAjax.ajaxurl
+        type: 'post'
+        dataType: 'html'
+        data: data
+        error: (jqXHR, textStatus, errorThrown) ->
+          console.log(textStatus, errorThrown)
+        success: (response) ->
+          targetElement.html(response)
+          element.removeClass('not-loaded')
+
+
 
 
   init()
