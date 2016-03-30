@@ -1,0 +1,23 @@
+@media #{$small-up} {
+  .pg-theme-thumbs {
+    @include column-count(3);
+  }
+}
+
+@media #{$medium-up} {
+  .pg-theme-thumbs {
+    @include column-count(4);
+  }
+}
+
+@media #{$large-up} {
+  .pg-theme-thumbs {
+    @include column-count(5);
+  }
+}
+
+@media #{$xlarge-up} {
+  .pg-theme-thumbs {
+    @include column-count(6);
+  }
+}

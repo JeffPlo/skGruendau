@@ -102,7 +102,7 @@ th abbr {
 /* *** Postgallery *** */
 .pg-theme-thumbs {
   @include column-gap($gallery-column-gap);
-  @include column-count(6);
+  @include column-count(2);
 
   margin: 1rem 0;
   padding: 0;
