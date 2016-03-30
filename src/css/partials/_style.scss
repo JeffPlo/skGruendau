@@ -99,6 +99,38 @@ th abbr {
   border: 0.2rem solid $primary-color;
 }
 
+/* *** Postgallery *** */
+.pg-theme-thumbs {
+  @include column-gap($gallery-column-gap);
+  @include column-count(6);
+
+  margin: 1rem 0;
+  padding: 0;
+
+  // scss-lint:disable all
+  .post-gallery_thumb {
+    // scss-lint:enable all
+    @include box-sizing(border-box);
+
+    max-width: inherit;
+    width: 100%;
+    margin: 0;
+    padding: $gallery-column-gap/2 0;
+  }
+}
+
+.litebox-image img {
+  margin: auto;
+}
+
+.litebox-gallery .close-button {
+  color: $gray-lighter;
+
+  &:hover {
+    color: $white;
+  }
+}
+
 
 /* *** Footer *** */
 .menu-footer {
