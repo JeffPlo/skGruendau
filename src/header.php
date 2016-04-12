@@ -35,11 +35,11 @@ $short_lang = $short_lang[0];
     jQuery('body').removeClass('no-js');
 </script>
 <div class="wrapper">
-    <header class="header-main" role="banner">
+    <header class="header-main">
         <div class="row show-for-medium-up header-image">
             <div class="small-4 columns">
                 <div class="header-logo">
-                    <a href="<?php bloginfo( 'url' ); ?>"><img src="<?php echo ThemeUrl; ?>/img/sk_logo.png" /></a>
+                    <a href="<?php bloginfo( 'url' ); ?>"><img alt="SK Gr&uuml;ndau e.V." src="<?php echo ThemeUrl; ?>/img/sk_logo.png" /></a>
                 </div>
             </div>
             <div class="small-8 columns">
@@ -49,40 +49,42 @@ $short_lang = $short_lang[0];
                 </div>
             </div>
         </div>
-        <nav class="top-bar text-center" data-topbar role="navigation">
-            <ul class="title-area show-for-small-only">
-                <li class="name">
-                    <h1><a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-                </li>
-                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-            </ul>
+	    <div class="contain-to-grid">
+	        <nav class="top-bar" data-topbar>
+	            <ul class="title-area show-for-small-only">
+	                <li class="name">
+	                    <h1><a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+	                </li>
+	                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+	                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+	            </ul>
 
-            <section class="top-bar-section">
-                <?php
-                $menu = wp_nav_menu(
-                        array(
-                            'theme_location' => 'header-menu',
-                            'echo' => false,
-                            'container' => 'div',                   // remove nav container
-                            'container_class' => 'row text-center', // class of container
-                            'menu' => '',                      	    // menu name
-                            'menu_class' => 'top-bar-menu',         // adding custom nav class
-                            'before' => '',                         // before each link <a>
-                            'after' => '',                          // after each link </a>
-                            'link_before' => '',                    // before each link text
-                            'link_after' => '',                     // after each link text
-                            'depth' => 2,                           // limit the depth of the nav
-                            'fallback_cb' => false,                 // fallback function (see below)
-                            'walker' => new TopBarWalker()
-                        )
-                );
-                echo $menu;
-                ?>
-            </section>
-        </nav>
+	            <div class="top-bar-section">
+	                <?php
+	                $menu = wp_nav_menu(
+	                        array(
+	                            'theme_location' => 'header-menu',
+	                            'echo' => false,
+	                            'container' => 'div',                   // remove nav container
+	                            'container_class' => 'row text-center', // class of container
+	                            'menu' => '',                      	    // menu name
+	                            'menu_class' => 'top-bar-menu',         // adding custom nav class
+	                            'before' => '',                         // before each link <a>
+	                            'after' => '',                          // after each link </a>
+	                            'link_before' => '',                    // before each link text
+	                            'link_after' => '',                     // after each link text
+	                            'depth' => 2,                           // limit the depth of the nav
+	                            'fallback_cb' => false,                 // fallback function (see below)
+	                            'walker' => new TopBarWalker()
+	                        )
+	                );
+	                echo $menu;
+	                ?>
+	            </div>
+	        </nav>
+	    </div>
     </header>
 
     <!-- Main -->
     <main class="content-main" role="main">
-        <section class="main">
+        <div class="main">

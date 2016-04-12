@@ -1,8 +1,8 @@
 <?php global $bambee, $bambeeWebsite; ?>
-</section>
+</div>
 </main>
 
-<footer role="contentinfo">
+<footer>
     <?php
     wp_nav_menu(
         array(
