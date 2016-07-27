@@ -1277,10 +1277,10 @@ $table-head-font-color: $blue-100;
 // $table-head-padding: rem-calc(8 10 10);
 
 // These control the table foot styles
-// $table-foot-bg: $table-head-bg;
+$table-foot-bg: #393939;
 // $table-foot-font-size: $table-head-font-size;
 // $table-foot-font-color: $table-head-font-color;
-// $table-foot-font-weight: $table-head-font-weight;
+$table-foot-font-weight: normal;
 // $table-foot-padding: $table-head-padding;
 
 // These control the caption
