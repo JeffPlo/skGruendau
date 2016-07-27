@@ -17,49 +17,49 @@ use Inc\Bambee;
  * @licence MIT
  */
 class CustomBambee extends Bambee {
-    public static $season = 2015;
+    public static $season = 2016;
     public static $club = array(
         array(
             'team' => '1. Mannschaft',
-            'league' => 'Landesklasse Ost',
-            'leagueId' => 483,
-            'teamId' => 3529
+            'league' => 'Verbandsliga Nord',
+            'leagueId' => 625,
+            'teamId' => 4615
         ),
         array(
             'team' => '2. Mannschaft',
             'league' => 'Bezirksklasse',
-            'leagueId' => 471,
-            'teamId' => 3393
+            'leagueId' => 599,
+            'teamId' => 4391
         ),
         array(
             'team' => '3. Mannschaft',
             'league' => 'Kreisklasse A',
-            'leagueId' => 467,
-            'teamId' => 3439
+            'leagueId' => 603,
+            'teamId' => 4425
         ),
         array(
             'team' => '4. Mannschaft',
-            'league' => 'Kreisklasse B II',
-            'leagueId' => 529,
-            'teamId' => 3903
+            'league' => 'Kreisklasse B',
+            'leagueId' => 605,
+            'teamId' => 4561
         ),
         array(
             'team' => '1. und 2. Jugendteam',
-            'league' => 'MVSJ-league, Staffel A',
-            'leagueId' => 501,
-            'teamId' => 4009
+            'league' => 'MVSJ-Liga A (Bezirk 4)',
+            'leagueId' => 657,
+            'teamId' => 4841
         ),
         array(
             'team' => '3. Jugendteam',
-            'league' => 'MVSJ-league, Staffel B',
-            'leagueId' => 503,
-            'teamId' => 4033
+            'league' => 'MVSJ-Liga B (Bezirk 4)',
+            'leagueId' => 659,
+            'teamId' => 4853
         ),
         array(
             'team' => '4. Jugendteam',
-            'league' => 'MVSJ-league, Staffel C',
-            'leagueId' => 505,
-            'teamId' => 4047
+            'league' => 'MVSJ-Liga C (Bezirk 4)',
+            'leagueId' => 661,
+            'teamId' => 4867
         ),
     );
 
