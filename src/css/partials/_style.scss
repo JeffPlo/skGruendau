@@ -99,6 +99,12 @@ th abbr {
   border: 0.2rem solid $primary-color;
 }
 
+.post-image {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
 /* *** Postgallery *** */
 .pg-theme-thumbs {
   @include column-gap($gallery-column-gap);
