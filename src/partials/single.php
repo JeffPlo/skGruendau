@@ -2,11 +2,15 @@
     <div class="small-12 medium-4 column">
         <?php
         if (has_post_thumbnail( $singlePost->ID ) ) {
-            $image = wp_get_attachment_image_src( get_post_thumbnail_id( $singlePost->ID ), 'large' );
+            $thumbnailId = get_post_thumbnail_id( $singlePost->ID );
+            $imageTitle = get_the_title( $thumbnailId );
+            $image = wp_get_attachment_image_src( $thumbnailId, 'large' );
+            $imageMedium = wp_get_attachment_image_src( $thumbnailId, 'medium' );
             ?>
             <div class="img-shadow center-block">
                 <a href="<?php echo $image[0]; ?>" target="_blank">
-                    <?php echo get_the_post_thumbnail( $singlePost->ID, 'medium' ); ?>
+                    <img src="<?php echo $imageMedium[0]; ?>"
+                         alt="<?php echo $imageTitle; ?>" title="<?php echo $imageTitle; ?>" />
                 </a>
             </div>
             <?php
