@@ -17,49 +17,56 @@ use Inc\Bambee;
  * @licence MIT
  */
 class CustomBambee extends Bambee {
-    public static $season = 2016;
+    public static $gpId = 9;
+    public static $season = 2017;
     public static $club = array(
         array(
             'team' => '1. Mannschaft',
             'league' => 'Verbandsliga Nord',
-            'leagueId' => 625,
-            'teamId' => 4615
+            'leagueId' => 779,
+            'teamId' => 5823
         ),
         array(
             'team' => '2. Mannschaft',
-            'league' => 'Bezirksklasse',
-            'leagueId' => 599,
-            'teamId' => 4391
+            'league' => 'Bezirksliga',
+            'leagueId' => 795,
+            'teamId' => 6055
         ),
         array(
             'team' => '3. Mannschaft',
-            'league' => 'Kreisklasse A',
-            'leagueId' => 603,
-            'teamId' => 4425
+            'league' => 'Kreisliga',
+            'leagueId' => 803,
+            'teamId' => 6161
         ),
         array(
             'team' => '4. Mannschaft',
-            'league' => 'Kreisklasse B',
-            'leagueId' => 605,
-            'teamId' => 4561
+            'league' => 'Kreisklasse',
+            'leagueId' => 805,
+            'teamId' => 6169
+        ),
+        array(
+            'team' => '1. Pokalteam',
+            'league' => 'Heinz-K&ouml;hler-Pokal',
+            'leagueId' => 799,
+            'teamId' => 6099
         ),
         array(
             'team' => '1. und 2. Jugendteam',
-            'league' => 'MVSJ-Liga A (Bezirk 4)',
-            'leagueId' => 657,
-            'teamId' => 4841
+            'league' => 'MVSJ-Liga A',
+            'leagueId' => 807,
+            'teamId' => 6305
         ),
         array(
             'team' => '3. Jugendteam',
-            'league' => 'MVSJ-Liga B (Bezirk 4)',
-            'leagueId' => 659,
-            'teamId' => 4853
+            'league' => 'MVSJ-Liga B',
+            'leagueId' => 809,
+            'teamId' => 6319
         ),
         array(
             'team' => '4. Jugendteam',
-            'league' => 'MVSJ-Liga C (Bezirk 4)',
-            'leagueId' => 661,
-            'teamId' => 4867
+            'league' => 'MVSJ-Liga C',
+            'leagueId' => 811,
+            'teamId' => 6333
         ),
     );
 
@@ -108,6 +115,13 @@ class CustomBambee extends Bambee {
                 $leagueId = filter_input(INPUT_POST, 'leagueId');
                 $type = filter_input(INPUT_POST, 'type');
                 $result = $this->getTableContent($type, $leagueId);
+                break;
+
+            case 'getPostContent':
+                $postId = filter_input(INPUT_POST, 'postId');
+                $result = $this->getPostContent($postId);
+                break;
+
         }
 
 
@@ -156,6 +170,17 @@ class CustomBambee extends Bambee {
         } else {
             // could not load table
             $content = '<p>die Tabelle konnte nicht eingelesen werden!</p>';
+        }
+
+        return $content;
+    }
+
+    public static function getPostContent($postId) {
+        $content = '';
+        $post = get_post( $postId );
+
+        if ( $post ) {
+            $content = $post->post_content;
         }
 
         return $content;

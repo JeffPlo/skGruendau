@@ -78,6 +78,7 @@ class CustomWebsite extends BambeeWebsite {
 
         add_shortcode( 'lastposts', array($this, 'getLastPosts') );
         add_shortcode( 'table', array($this, 'getTable') );
+        add_shortcode( 'gp', array($this, 'getGP') );
     }
 
     # [posts kategorie="news" anzahl="3" zeichen="250"]
@@ -132,11 +133,11 @@ class CustomWebsite extends BambeeWebsite {
         $separator = '<br />';
 
         $tabContent = '';
-        foreach (CustomBambee::$club as $team) {
+        foreach ( CustomBambee::$club as $team ) {
             $tabLabel = $team['team'] . $separator . '<p class="subtitle">' . $team['league'] . '</p>';
             $tabData = 'data-league-id="'. $team['leagueId'] .'" data-team-id="'. $team['teamId'] .'" data-type="'. $atts['type'] .'"';
             if(empty($tabContent)) {
-                $tabContent = CustomBambee::getTableContent($atts['type'], $team['leagueId']);
+                $tabContent = CustomBambee::getTableContent( $atts['type'], $team['leagueId'] );
             }
 
             $tabs[] = '<li><a href="#tabs-'. $team['teamId'] .'" class="team-tab not-loaded" '. $tabData .'>' . $tabLabel .'</a></li>';
@@ -145,5 +146,35 @@ class CustomWebsite extends BambeeWebsite {
         }
 
         return '<div class="table-tabs"><ul>' . join("\n", $tabs) .'</ul>'. join("\n", $tabsContent) . '</div>';
+    }
+
+    /**
+     * get "Gründau Pokal"
+     * @return string
+     */
+    public function getGP() {
+
+        $tabs = array();
+        $tabsContent = array();
+        $args = array(
+            'post_parent' => CustomBambee::$gpId,
+            'post_type'   => 'page',
+            'numberposts' => -1,
+            'post_status' => 'publish'
+        );
+        $children = get_children( $args );
+        $tabContent = '';
+        foreach ( $children as $gp) {
+            $tabData = 'data-post-id="'. $gp->ID .'"';
+            if(empty($tabContent)) {
+                $tabContent = CustomBambee::getPostContent( $gp->ID );
+            }
+
+            $tabs[] = '<li><a href="#tabs-'. $gp->ID .'" class="gp-tab not-loaded" '. $tabData .'>' . $gp->post_title .'</a></li>';
+            $tabsContent[] = '<div id="tabs-'. $gp->ID .'">'. $tabContent .'</div>';
+            $tabContent = '<div class="loader"></div>';
+        }
+
+        return '<div class="gp-tabs"><ul>' . join("\n", $tabs) .'</ul>'. join("\n", $tabsContent) . '</div>';
     }
 }
